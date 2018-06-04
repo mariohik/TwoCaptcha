@@ -8,6 +8,9 @@
     <Description>Solve Captchas with 2Captcha</Description>
     <Product />
     <PackageTags>2Captcha</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageIconUrl>https://2captcha.com/template/new/images/favicon.ico</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/arapinha/TwoCaptcha</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

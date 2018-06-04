@@ -10,11 +10,11 @@ namespace TwoCaptcha
         /// <summary>
         /// How to obtain the parameters? https://2captcha.com/2captcha-api#solving_recaptchav2_new
         /// </summary>
-        public async Task<Models.TwoCaptcha> ReCaptchaV2Async(string twoCaptchaKey, string googleKey, string pageUrl)
+        public async Task<Models.TwoCaptcha> ReCaptchaV2Async(string twoCaptchaKey, string googleKey, string pageUrl, int softId = 5287317)
         {
             var client = new HttpClient();
 
-            var json = await client.GetStringAsync($"http://2captcha.com/in.php?key={twoCaptchaKey}&method=userrecaptcha&json=1&googlekey={googleKey}&pageurl={pageUrl}&here=now");
+            var json = await client.GetStringAsync($"http://2captcha.com/in.php?key={twoCaptchaKey}&method=userrecaptcha&json=1&soft_id={softId}&googlekey={googleKey}&pageurl={pageUrl}&here=now");
 
             var twoCaptcha = Models.TwoCaptcha.FromJson(json);
             var idRequest = twoCaptcha.Request;
