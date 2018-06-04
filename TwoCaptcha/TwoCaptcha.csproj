@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PackageId>2Captcha</PackageId>
+    <Authors>Mario Duarte</Authors>
+    <Company />
+    <Description>Solve Captchas with 2Captcha</Description>
+    <Product />
+    <PackageTags>2Captcha</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+</Project>
