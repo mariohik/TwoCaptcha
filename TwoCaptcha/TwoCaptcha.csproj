@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>2Captcha</PackageId>
     <Authors>Mario Duarte</Authors>
     <Company />
@@ -10,7 +10,7 @@
     <PackageTags>2Captcha</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIconUrl>https://2captcha.com/template/new/images/favicon.ico</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/arapinha/TwoCaptcha</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/mariohik/TwoCaptcha</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
