@@ -2,11 +2,15 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using TwoCaptcha.Models;
+using Flurl;
+using Flurl.Http;
 
 namespace TwoCaptcha
 {
     public class Solve
     {
+        const string url = "http://2captcha.com";
+
         /// <summary>
         /// How to obtain the parameters? https://2captcha.com/2captcha-api#solving_recaptchav2_new
         /// </summary>
@@ -14,9 +18,17 @@ namespace TwoCaptcha
         {
             var client = new HttpClient();
 
-            var json = await client.GetStringAsync($"http://2captcha.com/in.php?key={twoCaptchaKey}&method=userrecaptcha&json=1&soft_id={softId}&googlekey={googleKey}&pageurl={pageUrl}&here=now");
+            var twoCaptcha = await url
+                .AppendPathSegment("in.php")
+                .SetQueryParam("key", twoCaptchaKey)
+                .SetQueryParam("method", "userrecaptcha")
+                .SetQueryParam("json", "1")
+                .SetQueryParam("soft_id", softId)
+                .SetQueryParam("googlekey", googleKey)
+                .SetQueryParam("pageurl", pageUrl)
+                .SetQueryParam("here", "now")
+                .GetJsonAsync<Models.TwoCaptcha>();
 
-            var twoCaptcha = Models.TwoCaptcha.FromJson(json);
             var idRequest = twoCaptcha.Request;
 
             if (twoCaptcha.Status == 1)
@@ -26,8 +38,13 @@ namespace TwoCaptcha
                     // Wait time before checking if the CAPTCHA has been resolved 
                     await Task.Delay(5000);
 
-                    json = await client.GetStringAsync($"http://2captcha.com/res.php?key={twoCaptchaKey}&action=get&id={idRequest}&json=1");
-                    twoCaptcha = Models.TwoCaptcha.FromJson(json);
+                    twoCaptcha = await url
+                        .AppendPathSegment("res.php")
+                        .SetQueryParam("key", twoCaptchaKey)
+                        .SetQueryParam("action", "get")
+                        .SetQueryParam("json", "1")
+                        .SetQueryParam("id", idRequest)
+                        .GetJsonAsync<Models.TwoCaptcha>();
 
                     if (twoCaptcha.Request == "ERROR_CAPTCHA_UNSOLVABLE")
                     {
@@ -37,6 +54,7 @@ namespace TwoCaptcha
                 } while (twoCaptcha.Request == "CAPCHA_NOT_READY");
             }
 
+            twoCaptcha.IdRequest = idRequest;
             return twoCaptcha;
         }
 
@@ -96,6 +114,28 @@ namespace TwoCaptcha
             }
 
             return twoCaptcha;
+        }
+
+        public static async void ReportGood(string twoCaptchaKey, string idRequest)
+        {
+            await url
+                .AppendPathSegment("res.php")
+                .SetQueryParam("key", twoCaptchaKey)
+                .SetQueryParam("action", "reportgood")
+                .SetQueryParam("json", "1")
+                .SetQueryParam("id", idRequest)
+                .GetStringAsync();
+        }
+
+        public static async void ReportBad(string twoCaptchaKey, string idRequest)
+        {
+            await url
+                .AppendPathSegment("res.php")
+                .SetQueryParam("key", twoCaptchaKey)
+                .SetQueryParam("action", "reportbad")
+                .SetQueryParam("json", "1")
+                .SetQueryParam("id", idRequest)
+                .GetStringAsync();
         }
     }
 }

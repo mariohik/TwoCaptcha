@@ -9,6 +9,8 @@
 
         [JsonProperty("request")]
         public string Request { get; set; }
+
+        public string IdRequest { get; set; }
     }
 
     public partial class TwoCaptcha
