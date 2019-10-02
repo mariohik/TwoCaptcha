@@ -58,7 +58,7 @@ namespace TwoCaptcha
             return twoCaptcha;
         }
 
-        public async static Task<Models.TwoCaptcha> NormalCaptchaAsync(string key2Captcha, string imgCaptchaBase64, 
+        public async Task<Models.TwoCaptcha> NormalCaptchaAsync(string key2Captcha, string imgCaptchaBase64, 
             NumericEnum numeric = NumericEnum.NotSpecified, byte minLength = 0, byte maxLength = 0, RegSenseEnum regSense = RegSenseEnum.CaptchaInNotCaseSensitive,
             PhraseEnum phrase = PhraseEnum.CaptchaContainsOneWord, CalcEnum calc = CalcEnum.NotSpecified, LanguageEnum language = LanguageEnum.NotSpecified,
             string textInstructions = null, int softId = 5287317)
@@ -116,9 +116,9 @@ namespace TwoCaptcha
             return twoCaptcha;
         }
 
-        public static async void ReportGood(string twoCaptchaKey, string idRequest)
+        public async Task<string> ReportGoodAsync(string twoCaptchaKey, string idRequest)
         {
-            await url
+            return await url
                 .AppendPathSegment("res.php")
                 .SetQueryParam("key", twoCaptchaKey)
                 .SetQueryParam("action", "reportgood")
@@ -127,9 +127,9 @@ namespace TwoCaptcha
                 .GetStringAsync();
         }
 
-        public static async void ReportBad(string twoCaptchaKey, string idRequest)
+        public async Task<string> ReportBadAsync(string twoCaptchaKey, string idRequest)
         {
-            await url
+            return await url
                 .AppendPathSegment("res.php")
                 .SetQueryParam("key", twoCaptchaKey)
                 .SetQueryParam("action", "reportbad")
